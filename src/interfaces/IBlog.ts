@@ -1,18 +1,23 @@
 import { Document } from 'mongoose';
 
-export interface IBlog extends Document {
-    blogId: string;
+export interface IBlogPost extends Document {
     blogUrl: string;
     blogPost: string;
+    countries: string[];
+    cities: string[];
     placesOfInterest: string[];
-    spacyNer: string[];
+    spacyNer: [{
+        startIdx: number,
+        endIdx: number,
+        entity: string
+    }];
     awsNer: string[];
     createdAt: string;
     updatedAt: string;
 }
 
 export interface IBlogMetric extends Document {
-    blogId: string;
+    blogUrl: string;
     blogTrafficCount: number;
     createdAt: string;
     updatedAt: string;
@@ -20,5 +25,5 @@ export interface IBlogMetric extends Document {
 
 export interface ITopBlogSites extends Document {
     scrapedAt: string;
-    topFive: string[];
+    topTen: Array<string|number>;
 }

@@ -1,30 +1,53 @@
 import chalk from 'chalk';
-import { injectable, inject } from 'inversify';
-import { NextFunction } from 'express';
-import { Model, Mongoose } from 'mongoose';
-import { IBlogRepository } from '../../interfaces';
-// import { Blog } from './BlogSchema';
+import { injectable } from 'inversify';
+import { Model } from 'mongoose';
+import { IBlogPost, IBlogRepository } from '../../interfaces';
+import { DBResponse } from '../utils';
+import Blog from './BlogPostSchema';
 
-const ns = '@BlogCtrl';
-let LOG_CTX = chalk.cyan(`${ns} - Starting BlogCtrl`);
+const ns = '@BlogRepository';
+let LOG_CTX = chalk.cyan(`${ns} - Starting BlogRepository`);
 console.log(LOG_CTX);
 
 @injectable()
 export class BlogRepository implements IBlogRepository {
 
-    public constructor(){}
+    private _model: Model<IBlogPost>;
 
-    // constructor(
-    //     mongoose: Mongoose,
-    //     private collection: Model<IBlog>,
-    // ) {
-    //     super(mongoose, collection);
-    // }
+    constructor() {
+        this._model = Blog;
+    }
 
     public async helloRepository() {
         LOG_CTX = chalk.cyan(`${ns} - helloRepository()`);
         console.log(LOG_CTX);
 
         return 'ok repo';
+    }
+
+    public addBlog = async(blogDetails: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - addBlog()`);
+        console.log(LOG_CTX);
+
+        let resp;
+        try {
+            const newBlogPost = new self._model(blogDetails);
+            const result = await newBlogPost.save();
+            LOG_CTX = chalk.green(`Success ${ns}.addBlog`);
+            console.log(LOG_CTX);
+
+            resp = {
+                error: false,
+                data: result,
+            };
+        } catch(e) {
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp;
+        }
     }
 }

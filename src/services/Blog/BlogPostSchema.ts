@@ -1,14 +1,14 @@
 import * as mongoose from 'mongoose';
 import * as types from '../../startup/types';
-import { IBlog } from '../../interfaces/IBlog';
+import { IBlogPost } from '../../interfaces/IBlog';
 
-const Blog = new mongoose.Schema(
+const BlogPost = new mongoose.Schema(
     {
         blogId: String,
         blogUrl: String,
         blogPost: String,
         placesOfInterest: [{ type: String }],
-        spacyNer: [{ type: String }],
+        spacyNer: [{ startIdx: Number, endIdx: Number, entity: String }],
         awsNer: [{ type: String }],
         createdAt: String,
         updatedAt: String
@@ -18,4 +18,4 @@ const Blog = new mongoose.Schema(
     }
 );
 
-export default mongoose.model<IBlog>(types.Blog, Blog);
+export default mongoose.model<IBlogPost>(types.BlogPost, BlogPost);

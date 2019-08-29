@@ -1,9 +1,9 @@
+import boom from 'boom';
 import chalk from 'chalk';
 import { injectable, inject } from 'inversify';
 import { sendJsonResponse } from '../utils' ;
-import { NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { BlogService } from './BlogService';
-import { description, Doc, param, post, response, route, summary } from 'doctopus';
 import { SERVICE_IDENTIFIER } from '../../startup/types';
 import { IBlogCtrl } from '../../interfaces';
 
@@ -29,5 +29,25 @@ export class BlogCtrl implements IBlogCtrl {
         console.log(blogServiceResponse);
 
         return sendJsonResponse(res, 200, 'Ok', blogServiceResponse);
+    }
+
+    public addBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - addBlog()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!body.data) {
+                throw boom.badRequest('data for blog addition is required!')
+            }
+
+            const addBlogDataResp = await self._blogService.addBlog(body.data);
+            if (!addBlogDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', addBlogDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', addBlogDataResp);
+            }
+        }()
     }
 }

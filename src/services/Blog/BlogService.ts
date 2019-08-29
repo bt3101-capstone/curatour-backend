@@ -3,9 +3,10 @@ import { injectable, inject } from 'inversify';
 import { BlogRepository } from './BlogRepository';
 import { SERVICE_IDENTIFIER } from '../../startup/types';
 import { IBlogService } from '../../interfaces';
+import { DBResponse } from '../utils';
 
-const ns = '@BlogCtrl';
-let LOG_CTX = chalk.cyan(`${ns} - Starting BlogCtrl`);
+const ns = '@BlogService';
+let LOG_CTX = chalk.cyan(`${ns} - Starting BlogService`);
 console.log(LOG_CTX);
 
 @injectable()
@@ -29,5 +30,13 @@ export class BlogService implements IBlogService {
         console.log(LOG_CTX);
 
         return {data: 'Test Response from BlogService!'}
+    }
+
+    public addBlog = async(blogDetails: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - addBlog()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.addBlog(blogDetails);
     }
 }
