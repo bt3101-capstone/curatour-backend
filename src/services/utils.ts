@@ -27,3 +27,8 @@ export const sendJsonResponse = function(res: Response, status: number, message:
         .status(status)
         .send(jsonResponse);
 };
+
+export interface DBResponse {
+    error: boolean;
+    data: any;
+}
