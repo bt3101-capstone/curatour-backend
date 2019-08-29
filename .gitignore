@@ -14,7 +14,4 @@ secrets
 node_modules
 
 # Temporary exclusion
-Blog
 injector.ts
-types.ts
-routes.ts
