@@ -1,10 +1,10 @@
+import "reflect-metadata";
 import chalk from 'chalk';
-import * as bodyParser from 'body-parser';
 import express from 'express';
-import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import * as bodyParser from 'body-parser';
+import { NextFunction, Request, Response } from 'express';
 import { configure as configureNconf } from './startup/nconf';
-import { sendJsonResponse } from './services/utils';
 
 const ns = '@app';
 let LOG_CTX = chalk.cyan(`${ns} - Starting Curatour Backend`);
@@ -18,9 +18,7 @@ const MONGO_PASSWORD: string = nconf.get('mongo:password');
 const SPARES = nconf.get('mongo:spares');
 const SERVER_PORT: string = nconf.get('curatourBackend:port');
 
-const blogs = require('./routes/api/blogs');
-// import { register as routes } from './routes';
-// import startup from './startup';
+import { register as routes, register } from './routes';
 
 class App {
     public app = express();
@@ -51,8 +49,7 @@ class App {
 
         // To add Authentication Middleware here
 
-        this.app.get('/', (req, res) => sendJsonResponse(res, 200, 'OK', {}))
-        this.app.use('/api/blogs', blogs)
+        register(this.app);
     }
 
     private connectToTheDatabase() {
