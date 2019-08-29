@@ -1,0 +1,17 @@
+# vscode
+.vscode
+
+# osx noise
+.DS_Store
+
+# node_modules
+**/node_modules/*
+
+.env
+.npmrc
+dist/
+secrets
+node_modules
+
+# Temporary exclusion
+injector.ts

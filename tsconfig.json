@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ]
+    },
+    "lib": ["es6"],
+    "types": ["reflect-metadata"],
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "lib",
+    "src/**/scripts",
+    "src/*/public",
+    "node_modules",
+    "scripts",
+    "test/debug",
+    "test/helpers/scripts",
+    "test",
+    "**/node_modules/*"
+  ]
+}
