@@ -4,6 +4,7 @@ export const mongoose = 'mongoose';
 
 /** Services */
 export const Blog = 'Blog';
+export const BlogPost = 'BlogPost';
 
 export const SERVICE_IDENTIFIER = {
     BlogCtrl: Symbol.for("BlogCtrl"),
