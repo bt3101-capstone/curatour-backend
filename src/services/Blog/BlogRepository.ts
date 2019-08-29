@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { injectable } from 'inversify';
 import { Model } from 'mongoose';
-import { IBlogPost, IBlogRepository } from '../../interfaces';
+import { IBlog, IBlogRepository } from '../../interfaces';
 import { DBResponse } from '../utils';
 import Blog from './BlogPostSchema';
 
@@ -12,7 +12,7 @@ console.log(LOG_CTX);
 @injectable()
 export class BlogRepository implements IBlogRepository {
 
-    private _model: Model<IBlogPost>;
+    private _model: Model<IBlog>;
 
     constructor() {
         this._model = Blog;

@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface IBlogPost extends Document {
-    blogUrl: string;
+    blogPostUrl: string;
     blogPost: string;
     countries: string[];
     cities: string[];
@@ -12,13 +12,13 @@ export interface IBlogPost extends Document {
         entity: string
     }];
     awsNer: string[];
-    createdAt: string;
-    updatedAt: string;
+    writtenAt: string;
 }
 
-export interface IBlogMetric extends Document {
+export interface IBlog extends Document {
     blogUrl: string;
     blogTrafficCount: number;
+    blogs: IBlogPost[];
     createdAt: string;
     updatedAt: string;
 }
