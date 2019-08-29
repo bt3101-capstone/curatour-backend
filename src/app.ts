@@ -37,7 +37,6 @@ class App {
     }
 
     private initializeMiddlewares = async () => {
-        // const injector = await startup.injector;
         this.app.use(bodyParser.json());
         this.app.use((req: Request, res: Response, next: NextFunction) => {
             res.header('Access-Control-Allow-Credentials', true as any);

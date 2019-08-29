@@ -39,4 +39,21 @@ export class BlogService implements IBlogService {
 
         return self._blogRepository.addBlog(blogDetails);
     }
+
+    public getBlog = async(id: String): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlog()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getBlog(id);
+    }
+
+    public deleteBlog = async(blogDetails: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - deleteBlog()`);
+        console.log(LOG_CTX);
+        const idsToRemove = blogDetails['idsToRemove'];
+
+        return self._blogRepository.deleteBlog(idsToRemove);
+    }
 }

@@ -50,4 +50,43 @@ export class BlogCtrl implements IBlogCtrl {
             }
         }()
     }
+
+    public getBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlog()`);
+        console.log(LOG_CTX);
+
+        return async function() {
+            if (!req.params.id) {
+                throw boom.badRequest('id for getting blog is required!')
+            }
+
+            const getBlogDataResp = await self._blogService.getBlog(req.params.id);
+            if (!getBlogDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getBlogDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getBlogDataResp);
+            }
+        }()
+    }
+
+    public deleteBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - deleteBlog()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!body.data) {
+                throw boom.badRequest('data for blog deletion is required!')
+            }
+
+            const deleteBlogDataResp = await self._blogService.deleteBlog(body.data);
+            if (!deleteBlogDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', deleteBlogDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', deleteBlogDataResp);
+            }
+        }()
+    } 
 }
