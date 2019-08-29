@@ -24,4 +24,5 @@ export const register = (app: Express) => {
 
     app.get('/', (req, res) => sendJsonResponse(res, 200, 'OK', {}))
     app.post('/ctrltest', blogCtrl.helloWorld);
+    app.post('/blog/add', blogCtrl.addBlog);
 };
