@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
 import { BlogCtrl, BlogService, BlogRepository } from '../services/Blog';
-import { IBlogCtrl, IBlogService, IBlogRepository } from '../interfaces';
+import { IBlogCtrl, IBlogService, IBlogRepository } from '../interfaces/Blog';
 import { SERVICE_IDENTIFIER } from '../startup/types';
 
 let DIContainer = new Container();

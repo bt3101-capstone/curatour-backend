@@ -5,7 +5,7 @@ import { sendJsonResponse } from '../utils' ;
 import { Request, Response, NextFunction } from 'express';
 import { BlogService } from './BlogService';
 import { SERVICE_IDENTIFIER } from '../../startup/types';
-import { IBlogCtrl } from '../../interfaces';
+import { IBlogCtrl } from '../../interfaces/Blog';
 
 const ns = '@BlogCtrl';
 let LOG_CTX = chalk.cyan(`${ns} - Starting BlogCtrl`);
