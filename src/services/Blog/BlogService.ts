@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { injectable, inject } from 'inversify';
 import { BlogRepository } from './BlogRepository';
 import { SERVICE_IDENTIFIER } from '../../startup/types';
-import { IBlogService } from '../../interfaces';
+import { IBlogService } from '../../interfaces/Blog';
 import { DBResponse } from '../utils';
 
 const ns = '@BlogService';

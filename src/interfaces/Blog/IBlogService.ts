@@ -1,4 +1,4 @@
-import { DBResponse } from '../services/utils'
+import { DBResponse } from '../../services/utils'
 
 export interface IBlogService {
     helloService(): Promise<Object>;

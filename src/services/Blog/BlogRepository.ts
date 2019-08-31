@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { injectable } from 'inversify';
 import { Model } from 'mongoose';
-import { IBlog, IBlogRepository } from '../../interfaces';
+import { IBlog, IBlogRepository } from '../../interfaces/Blog';
 import { DBResponse } from '../utils';
 import Blog from './BlogPostSchema';
 

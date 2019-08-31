@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as types from '../../startup/types';
-import { IBlog } from '../../interfaces/IBlog';
+import { IBlog } from '../../interfaces/Blog/IBlog';
 
 const BlogPost = new mongoose.Schema(
     {
