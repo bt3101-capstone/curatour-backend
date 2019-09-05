@@ -2,7 +2,7 @@
   "name": "curatour-backend",
   "version": "1.0.0",
   "description": "This application is used for creating endpoints to run various analytics capabilities.",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
     "start": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
