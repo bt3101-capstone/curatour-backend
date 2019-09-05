@@ -5,7 +5,8 @@
             "blogTrafficCount": 10,
             "blogs": [
                 {
-                    "blogPost": "blah.blogspot.com/post1",
+                    "blogPostUrl": "blah.blogspot.com/post1",
+                    "blogPost": "Last week, I went to Japan, Osaka to ...",
                     "locations": [
                         {
                             "country": "Malaysia",
