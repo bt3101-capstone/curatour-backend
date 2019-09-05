@@ -11,6 +11,7 @@ let LOG_CTX = chalk.cyan(`${ns} - Starting Curatour Backend`);
 console.log(LOG_CTX);
 
 let nconf = configureNconf() as any;
+const ATLAS: string = nconf.get('mongo:atlasSetting');
 const MONGO_HOST: string = nconf.get('mongo:host')
 const DB_NAME = nconf.get('mongo:database');
 const MONGO_USER: string = nconf.get('mongo:user');
@@ -53,7 +54,7 @@ class App {
 
     private connectToTheDatabase() {
         try {
-            let mongoUrl = `mongodb://${MONGO_USER && MONGO_PASSWORD ? `${MONGO_USER}:${MONGO_PASSWORD}@` : ''}${MONGO_HOST}${SPARES ? `,${SPARES.join(',')}` : ''}/${DB_NAME}`;
+            let mongoUrl = `mongodb${ATLAS}://${MONGO_USER && MONGO_PASSWORD ? `${MONGO_USER}:${MONGO_PASSWORD}@` : ''}${MONGO_HOST}${SPARES ? `${SPARES.join(',')}` : ''}/${DB_NAME}`;
 
             const urlOptions = [];
 
