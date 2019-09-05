@@ -1,11 +1,15 @@
 import { Document } from 'mongoose';
 
+export interface ILocation extends Document {
+    country: string;
+    city: string;
+    placesOfInterest: Array<Array<string|string|number|number>>;
+}
+
 export interface IBlogPost extends Document {
     blogPostUrl: string;
     blogPost: string;
-    countries: string[];
-    cities: string[];
-    placesOfInterest: string[];
+    locations: ILocation[];
     spacyNer: [{
         startIdx: number,
         endIdx: number,

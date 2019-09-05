@@ -1,0 +1,30 @@
+{
+    "data": [
+        {
+            "blogUrl": "blah.blogspot.com",
+            "blogTrafficCount": 10,
+            "blogs": [
+                {
+                    "blogPostUrl": "blah.blogspot.com/post1",
+                    "blogPost": "Last week, I went to Japan, Osaka to ...",
+                    "locations": [
+                        {
+                            "country": "Malaysia",
+                            "cities": "JB, KL",
+                            "placesOfInterest": [["Twin Towers", "Tourist Activities",123124.213124, 123123.213124], ["Place 2", "Outdoor Activities", 213124213.12312421, 21312412.12312421]]
+                        }
+                    ],
+                    "spacyNer": [{
+                        "startIdx": 40,
+                        "endIdx": 45,
+                        "entity": "Outdoor Activities"
+                    }],
+                    "awsNer": [],
+                    "writtenAt": "28-08-2018"
+                }
+            ]
+        },
+        {},
+        {}
+    ]
+}
