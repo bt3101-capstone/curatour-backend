@@ -5,7 +5,7 @@
     },
     "mongo": {
         "atlasSetting": "",
-        "host": "localhost:27017",
+        "host": "mongo:27017",
         "database": "curatour",
         "debug": true
     }
