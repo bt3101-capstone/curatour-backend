@@ -26,6 +26,7 @@ export const register = (app: Express) => {
     app.get('/', (req, res) => sendJsonResponse(res, 200, 'OK', {}))
 
     // API Endpoints
+    app.get('/blog/traffic', blogCtrl.getBlogTraffic);
     app.get('/blog/:id', blogCtrl.getBlog);
     app.delete('/blog', blogCtrl.deleteBlog);
     app.post('/blog/add', blogCtrl.addBlog);
