@@ -70,6 +70,26 @@ export class BlogCtrl implements IBlogCtrl {
         }()
     }
 
+    public getBlogTraffic = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogTraffic()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!body.data) {
+                throw boom.badRequest('data for getting blog traffic is required!')
+            }
+
+            const getBlogTrafficDataResp = await self._blogService.getBlogTraffic(body.data);
+            if (!getBlogTrafficDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getBlogTrafficDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getBlogTrafficDataResp);
+            }
+        }()
+    }
+
     public deleteBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
         const self = this;
         LOG_CTX = chalk.cyan(`${ns} - deleteBlog()`);

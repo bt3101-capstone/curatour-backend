@@ -87,6 +87,64 @@ export class BlogRepository implements IBlogRepository {
     }
 
     /**
+     * Get Blog Traffic Data (Single Blog) - historical/usage/content
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getBlogTraffic = async(blogDetails: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogTrafficHistorical()`);
+        console.log(LOG_CTX);
+
+        let result, resp;
+        const dataType = blogDetails['type']
+        try {
+            if (dataType == 'historicalData') {
+                result = await self._model.aggregate(
+                    [
+                        { $match: { blogUrl: blogDetails['blogUrl'] }},
+                        {
+                            $project: {
+                                blogTraffic: {
+                                    historicalData: {
+                                        $filter: {
+                                            input: "$blogTraffic.historicalData",
+                                            as: "b",
+                                            cond: {
+                                                $and: [
+                                                    { $gte: [ "$$b.date", blogDetails['startDate']] },
+                                                    { $lte: [ "$$b.date", blogDetails['endDate']] }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                )
+            } else {
+                result = await self._model.find({ blogUrl: blogDetails['blogUrl'] }, 'blogTraffic.'+dataType).lean();
+            }
+
+            LOG_CTX = chalk.green(`Success ${ns}.getBlogTraffic - ${dataType}`);
+            console.log(LOG_CTX);
+
+            resp = {
+                error: false,
+                data: result,
+            };
+        } catch(e) {
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp;
+        }
+    }
+
+    /**
      * Delete Blogs
      * @returns {DBResponse} - Response after interacting with Mongoose
      * @memberOf: BlogRepository
