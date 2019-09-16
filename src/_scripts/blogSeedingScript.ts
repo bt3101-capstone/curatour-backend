@@ -115,7 +115,7 @@ const SPARES = nconf.get('mongo:spares');
     const trafficData = seedTrafficData['blogs'];
     trafficData.forEach(async(blog) => {
         const blogUrl = blog['blogUrl'];
-        const blogTraffic = blog['trafficHistory'];
+        const blogTraffic = blog['blogTraffic'];
         const blogs = []; // Temporary empty
         const seedDataFormat = {
             "blogUrl": blogUrl,
