@@ -1,3 +1,4 @@
+require('dotenv').config();
 import "reflect-metadata";
 import chalk from 'chalk';
 import express from 'express';
@@ -5,20 +6,30 @@ import mongoose from 'mongoose';
 import * as bodyParser from 'body-parser';
 import { NextFunction, Request, Response } from 'express';
 import { configure as configureNconf } from './startup/nconf';
+import { register as routes, register } from './routes';
 
 const ns = '@app';
 let LOG_CTX = chalk.cyan(`${ns} - Starting Curatour Backend`);
 console.log(LOG_CTX);
 
+let ATLAS: string, MONGO_HOST: string, DB_NAME: string, MONGO_USER: string, MONGO_PASSWORD: string, SPARES: string, SERVER_PORT: string;
 let nconf = configureNconf() as any;
-const MONGO_HOST: string = nconf.get('mongo:host')
-const DB_NAME = nconf.get('mongo:database');
-const MONGO_USER: string = nconf.get('mongo:user');
-const MONGO_PASSWORD: string = nconf.get('mongo:password');
-const SPARES = nconf.get('mongo:spares');
-const SERVER_PORT: string = nconf.get('curatourBackend:port');
-
-import { register as routes, register } from './routes';
+if (process.env.prod == 'prod') {
+    ATLAS = process.env.atlasSetting;
+    MONGO_HOST = process.env.host;
+    DB_NAME = process.env.database;
+    MONGO_USER = process.env.user;
+    MONGO_PASSWORD = process.env.password;
+    SPARES = process.env.spares;
+} else {
+    ATLAS = nconf.get('mongo:atlasSetting');
+    MONGO_HOST = nconf.get('mongo:host')
+    DB_NAME = nconf.get('mongo:database');
+    MONGO_USER = nconf.get('mongo:user');
+    MONGO_PASSWORD = nconf.get('mongo:password');
+    SPARES = nconf.get('mongo:spares');
+}
+SERVER_PORT = nconf.get('curatourBackend:port');
 
 class App {
     public app = express();
@@ -51,9 +62,9 @@ class App {
         register(this.app);
     }
 
-    private connectToTheDatabase() {
+    private async connectToTheDatabase() {
         try {
-            let mongoUrl = `mongodb://${MONGO_USER && MONGO_PASSWORD ? `${MONGO_USER}:${MONGO_PASSWORD}@` : ''}${MONGO_HOST}${SPARES ? `,${SPARES.join(',')}` : ''}/${DB_NAME}`;
+            let mongoUrl = `mongodb${ATLAS}://${MONGO_USER && MONGO_PASSWORD ? `${MONGO_USER}:${MONGO_PASSWORD}@` : ''}${MONGO_HOST}${SPARES ? `${SPARES}` : ''}${DB_NAME}`;
 
             const urlOptions = [];
 
@@ -72,8 +83,8 @@ class App {
             if (urlOptions && urlOptions.length) {
                 mongoUrl += `?${urlOptions.join('&')}`;
             }
-
-            mongoose.connect(mongoUrl, {useNewUrlParser: true});
+            
+            const conn = await mongoose.connect(mongoUrl, {useNewUrlParser: true});
             console.log(`${DB_NAME} database connection successful!`);
         } catch (err) {
             console.log(`Error while connecting to ${DB_NAME} database!`);
