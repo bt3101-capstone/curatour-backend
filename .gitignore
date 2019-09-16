@@ -16,3 +16,6 @@ node_modules
 # Temporary exclusion
 config.prod.json
 injector.ts
+
+# Seeding Data
+seedingData
