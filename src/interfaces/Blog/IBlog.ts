@@ -81,7 +81,7 @@ export interface ITraffic extends Document {
 
 export interface IBlog extends Document {
     blogUrl: string;
-    blogTraffic: ITraffic[];
+    blogTraffic: ITraffic;
     blogs: IBlogPost[];
     createdAt: string;
     updatedAt: string;
