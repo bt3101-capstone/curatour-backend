@@ -1,12 +1,13 @@
 import chalk from 'chalk';
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import superagent from 'superagent';
 
 import { configure as configureNconf } from '../startup/nconf';
 import * as types from '../startup/types';
 import { BlogService, BlogRepository } from '../services/Blog';
 
-import { seedTrafficData } from '../seedingData/seedTrafficData';
+import { seedingData } from '../seedingData/seedTrafficData_test';
+// import { seedingData } from '../seedingData/seedTrafficData';
 
 let ns = chalk.cyan('@blogSeedingScript');
 let LOG_CTX;
@@ -30,6 +31,7 @@ const SPARES = nconf.get('mongo:spares');
     const conn = await mongoose.connect(mongoUrl, {useNewUrlParser: true});
     console.log(`${DB_NAME} database connection successful!`);
     console.log(conn);
+    console.log(mongoUrl);
 
     // Create blog collection Schema
     mongoose.set('useCreateIndex', true);
@@ -112,16 +114,17 @@ const SPARES = nconf.get('mongo:spares');
     // const blogRepo = new BlogRepository();
     // const blogService = new BlogService(blogRepo);
 
-    const trafficData = seedTrafficData['blogs'];
+    const trafficData = seedingData['blogs'];
     trafficData.forEach(async(blog) => {
         const blogUrl = blog['blogUrl'];
         const blogTraffic = blog['blogTraffic'];
-        const blogs = []; // Temporary empty
+        const blogs = blog['blogs'];
         const seedDataFormat = {
             "blogUrl": blogUrl,
             "blogTraffic": blogTraffic,
             "blogs": blogs
         }
+        
 
         let res;
         try {
