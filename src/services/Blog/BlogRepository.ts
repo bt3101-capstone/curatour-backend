@@ -105,17 +105,15 @@ export class BlogRepository implements IBlogRepository {
                         { $match: { blogUrl: blogDetails['blogUrl'] }},
                         {
                             $project: {
-                                blogTraffic: {
-                                    historicalData: {
-                                        $filter: {
-                                            input: "$blogTraffic.historicalData",
-                                            as: "b",
-                                            cond: {
-                                                $and: [
-                                                    { $gte: [ "$$b.date", blogDetails['startDate']] },
-                                                    { $lte: [ "$$b.date", blogDetails['endDate']] }
-                                                ]
-                                            }
+                                "blogTraffic.historicalData": {
+                                    $filter: {
+                                        input: "$blogTraffic.historicalData",
+                                        as: "historicalData",
+                                        cond: {
+                                            $and: [
+                                                { $gte: [ "$$historicalData.date", blogDetails['startDate']] },
+                                                { $lte: [ "$$historicalData.date", blogDetails['endDate']] }
+                                            ]
                                         }
                                     }
                                 }
@@ -123,18 +121,28 @@ export class BlogRepository implements IBlogRepository {
                         }
                     ]
                 )
+                console.log('in historicalData');
+                result = result[0]['blogTraffic'][dataType];
+            } else if (dataType == 'usageData') {
+                result = await self._model.find({ blogUrl: blogDetails['blogUrl'] }, 'blogTraffic.'+dataType).lean();
+                console.log('in usageData');
+                result = result[0]['blogTraffic'][dataType];
             } else {
                 result = await self._model.find({ blogUrl: blogDetails['blogUrl'] }, 'blogTraffic.'+dataType).lean();
+                console.log('in contentData');
+                result = result[0]['blogTraffic'][dataType];
             }
 
             LOG_CTX = chalk.green(`Success ${ns}.getBlogTraffic - ${dataType}`);
             console.log(LOG_CTX);
+            console.log(result);
 
             resp = {
                 error: false,
                 data: result,
             };
         } catch(e) {
+            console.log(e);
             resp = {
                 error: true,
                 data: e,
