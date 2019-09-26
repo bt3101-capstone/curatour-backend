@@ -31,6 +31,21 @@ export class BlogCtrl implements IBlogCtrl {
         return sendJsonResponse(res, 200, 'Ok', blogServiceResponse);
     }
 
+    public getAutocompleteUrls = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogUrls()`);
+        console.log(LOG_CTX);
+
+        return async function() {
+        const addBlogDataResp = await self._blogService.getAutocompleteUrls();
+            if (!addBlogDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', addBlogDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', addBlogDataResp);
+            }
+        }()
+    }
+
     public addBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
         const self = this;
         LOG_CTX = chalk.cyan(`${ns} - addBlog()`);

@@ -26,6 +26,35 @@ export class BlogRepository implements IBlogRepository {
     }
 
     /**
+     * Get all BlogUrls for Autocomplete
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getAutocompleteUrls = async(): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getAutocompleteUrls()`);
+        console.log(LOG_CTX);
+
+        let resp, result;
+        try {
+            const queryResults = await self._model.find({}, {'blogUrl': 1, '_id': 0});
+            result = queryResults.map(blog => blog.blogUrl);
+
+            resp = {
+                error: false,
+                data: result,
+            }
+        } catch(e) {
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp
+        }
+    }
+
+    /**
      * Add Blogs
      * @returns {DBResponse} - Response after interacting with Mongoose
      * @memberOf: BlogRepository
