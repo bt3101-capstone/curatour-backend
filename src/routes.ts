@@ -29,6 +29,7 @@ export const register = (app: Express) => {
     app.get('/autocomplete', blogCtrl.getAutocompleteUrls);
     app.post('/blog/traffic', blogCtrl.getBlogTraffic);
     app.get('/blog/:id', blogCtrl.getBlog);
+    app.post('/blog/country', blogCtrl.getBlogCountryMetric);
     app.delete('/blog', blogCtrl.deleteBlog);
     app.post('/blog/add', blogCtrl.addBlog);
 
