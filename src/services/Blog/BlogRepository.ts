@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 import { injectable } from 'inversify';
 import { Model } from 'mongoose';
-import { IBlog, IBlogRepository } from '../../interfaces/Blog';
+import { IBlog, IBlogCountryMetric, IBlogRepository } from '../../interfaces/Blog';
 import { DBResponse } from '../utils';
 import Blog from './BlogPostSchema';
+import BlogCountryMetric from './BlogCountrySchema';
 
 const ns = '@BlogRepository';
 let LOG_CTX = chalk.cyan(`${ns} - Starting BlogRepository`);
@@ -13,9 +14,11 @@ console.log(LOG_CTX);
 export class BlogRepository implements IBlogRepository {
 
     private _model: Model<IBlog>;
+    private _countryMetric: Model<IBlogCountryMetric>;
 
     constructor() {
         this._model = Blog;
+        this._countryMetric = BlogCountryMetric;
     }
 
     public async helloRepository() {
@@ -196,6 +199,45 @@ export class BlogRepository implements IBlogRepository {
             const result = await self._model.deleteMany({ _id: { $in: idsToRemove }})
             LOG_CTX = chalk.green(`Success ${ns}.deleteBlog`);
             console.log(LOG_CTX);
+
+            resp = {
+                error: false,
+                data: result,
+            };
+        } catch(e) {
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp;
+        }
+    }
+
+    /**
+     * Get Aggregated Blog Country Metric Data (All Blogs)
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getBlogCountryMetric = async(blogCountryFilters: Object) => {
+        const country = blogCountryFilters['country'];
+        const year = blogCountryFilters['year'];
+
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogCountryMetric()`);
+        console.log(LOG_CTX);
+
+        let resp;
+        try {
+            let result = await self._countryMetric.find({'country': country, 'year': year}).lean();
+            result = {
+                'country': result[0]['country'],
+                'year': result[0]['year'],
+                'entities': result[0]['entities']
+            }
+            LOG_CTX = chalk.green(`Success ${ns}.getBlogCountryMetric`);
+            console.log(LOG_CTX);
+            console.log(result);
 
             resp = {
                 error: false,
