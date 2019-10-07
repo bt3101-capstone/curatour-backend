@@ -5,6 +5,7 @@ export const mongoose = 'mongoose';
 /** Services */
 export const Blog = 'Blog';
 export const BlogPost = 'BlogPost';
+export const BlogCountryMetric = 'BlogCountryMetric';
 export const UserCredential = 'UserCredential';
 
 export const SERVICE_IDENTIFIER = {
