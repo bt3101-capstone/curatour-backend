@@ -72,4 +72,12 @@ export class BlogService implements IBlogService {
 
         return self._blogRepository.deleteBlog(idsToRemove);
     }
+
+    public getBlogCountryMetric = async(blogCountryFilters: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogCountryMetric()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getBlogCountryMetric(blogCountryFilters);
+    }
 }
