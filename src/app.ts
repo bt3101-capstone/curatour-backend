@@ -48,7 +48,7 @@ class App {
     }
 
     private initializeMiddlewares = async () => {
-        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.json({limit: '50mb'}));
         this.app.use((req: Request, res: Response, next: NextFunction) => {
             res.header('Access-Control-Allow-Credentials', true as any);
             res.header('Access-Control-Allow-Origin', '*');

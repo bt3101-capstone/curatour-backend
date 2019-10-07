@@ -32,6 +32,14 @@ export class BlogService implements IBlogService {
         return {data: 'Test Response from BlogService!'}
     }
 
+    public getAutocompleteUrls = async() => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getAutocompleteUrls()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getAutocompleteUrls();
+    }
+
     public addBlog = async(blogDetails: Object): Promise<DBResponse> => {
         const self = this;
         LOG_CTX = chalk.cyan(`${ns} - addBlog()`);
@@ -63,5 +71,13 @@ export class BlogService implements IBlogService {
         const idsToRemove = blogDetails['idsToRemove'];
 
         return self._blogRepository.deleteBlog(idsToRemove);
+    }
+
+    public getBlogCountryMetric = async(blogCountryFilters: Object): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogCountryMetric()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getBlogCountryMetric(blogCountryFilters);
     }
 }
