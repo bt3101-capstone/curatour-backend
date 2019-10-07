@@ -123,5 +123,25 @@ export class BlogCtrl implements IBlogCtrl {
                 sendJsonResponse(res, 500, 'error', deleteBlogDataResp);
             }
         }()
-    } 
+    }
+
+    public getBlogCountryMetric = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogCountryMetric()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!body.data) {
+                throw boom.badRequest('data for getting blog country metric is required!')
+            }
+
+            const getBlogCountryMetricDataResp = await self._blogService.getBlogCountryMetric(body.data);
+            if (!getBlogCountryMetricDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getBlogCountryMetricDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getBlogCountryMetricDataResp);
+            }
+        }()
+    }
 }
