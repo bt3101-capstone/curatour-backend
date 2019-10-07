@@ -1,13 +1,12 @@
 import chalk from 'chalk';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import superagent from 'superagent';
 
-import { configure as configureNconf } from '../startup/nconf';
 import * as types from '../startup/types';
-import { BlogService, BlogRepository } from '../services/Blog';
+import { configure as configureNconf } from '../startup/nconf';
+import { IBlog } from '../interfaces/Blog';
 
-import { seedingData } from '../seedingData/seedTrafficData_test';
-// import { seedingData } from '../seedingData/seedTrafficData';
+import { seedingData } from '../seedingData/trafficData';
 
 let ns = chalk.cyan('@blogSeedingScript');
 let LOG_CTX;
@@ -109,10 +108,34 @@ const SPARES = nconf.get('mongo:spares');
         timestamps: true
     });
 
-    mongoose.model(types.Blog, blogSchema)
+    mongoose.model<IBlog>(types.Blog, blogSchema);
 
-    // const blogRepo = new BlogRepository();
-    // const blogService = new BlogService(blogRepo);
+    // const blogEntry = mongoose.model<IBlog>(types.Blog, blogSchema);
+    // const db = mongoose.connection;
+
+    // const trafficData = seedingData['blogs'];
+    // trafficData.forEach(async(blog) => {
+    //     db.once('open', () => {
+    //         console.log('Connection successful!');
+    //     });
+
+    //     const blogUrl = blog['blogUrl'];
+    //     const blogTraffic = blog['blogTraffic'];
+    //     const blogs = blog['blogs'];
+
+    //     const newBlog = new blogEntry({
+    //         blogUrl,
+    //         blogTraffic,
+    //         blogs
+    //     });
+
+    //     newBlog.save((e, blogData) => {
+    //         if (e) {
+    //             console.log('Error when adding new Blog data!');
+    //         }
+    //         console.log(blogUrl + " saved to Blog collection.")
+    //     });
+    // });
 
     const trafficData = seedingData['blogs'];
     trafficData.forEach(async(blog) => {
