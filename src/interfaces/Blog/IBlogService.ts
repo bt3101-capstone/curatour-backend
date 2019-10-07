@@ -6,5 +6,6 @@ export interface IBlogService {
     addBlog(blogDetails: Object): Promise<DBResponse>;
     getBlog(id: String): Promise<DBResponse>;
     getBlogTraffic(blogDetails: Object): Promise<DBResponse>;
+    getBlogCountryMetric(blogCountryFilters: Object): Promise<DBResponse>;
     deleteBlog(blogDetails: Object): Promise<DBResponse>;
 }

@@ -74,15 +74,20 @@ export interface IContentData extends Document {
 }
 
 export interface ITraffic extends Document {
-    historicalData: IHistoricalData[];
-    usageData: IUsageData[];
-    contentData: IContentData[];
+    historicalData?: IHistoricalData[];
+    usageData?: IUsageData[];
+    contentData?: IContentData[];
 }
 
+// Un-strict declaration
 export interface IBlog extends Document {
     blogUrl: string;
-    blogTraffic: ITraffic;
-    blogs: IBlogPost[];
+    blogTraffic?: {
+        historicalData: any,
+        usageData: any,
+        contentData: any
+    };
+    blogs: any;
     createdAt: string;
     updatedAt: string;
 }
@@ -90,4 +95,10 @@ export interface IBlog extends Document {
 export interface ITopBlogSites extends Document {
     scrapedAt: string;
     topTen: Array<string|number>;
+}
+
+export interface IBlogCountryMetric extends Document {
+    country: string;
+    year: string;
+    entities: { [key: string]: Array<any> };
 }
