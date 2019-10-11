@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import chalk from 'chalk';
 import { injectable } from 'inversify';
 import { Model } from 'mongoose';
@@ -154,6 +155,7 @@ export class BlogRepository implements IBlogRepository {
                     ]
                 )
                 console.log('in historicalData');
+                console.log(result);
                 result = result[0]['blogTraffic'][dataType];
             } else if (dataType == 'usageData') {
                 result = await self._model.find({ blogUrl: blogDetails['blogUrl'] }, 'blogTraffic.'+dataType).lean();
@@ -166,6 +168,41 @@ export class BlogRepository implements IBlogRepository {
             }
 
             LOG_CTX = chalk.green(`Success ${ns}.getBlogTraffic - ${dataType}`);
+            console.log(LOG_CTX);
+            console.log(result);
+
+            resp = {
+                error: false,
+                data: result,
+            };
+        } catch(e) {
+            console.log(e);
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp;
+        }
+    }
+
+    /**
+     * Get Blog Traffic Data (Single Blog) - historical only
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getLatestBlogTraffic = async(blogUrl: String): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getLatestBlogTrafficHistorical()`);
+        console.log(LOG_CTX);
+
+        let result, resp;
+        try {
+            result = await self._model.find({ 'blogUrl': blogUrl });
+            result = result[0]['blogTraffic']['historicalData'];
+            result = (_.sortBy(result, 'date')).slice(-1)[0];
+
+            LOG_CTX = chalk.green(`Success ${ns}.getLatestBlogTraffic - historicalData`);
             console.log(LOG_CTX);
             console.log(result);
 

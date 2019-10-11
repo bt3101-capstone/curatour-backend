@@ -64,6 +64,14 @@ export class BlogService implements IBlogService {
         return self._blogRepository.getBlogTraffic(blogDetails);
     }
 
+    public getLatestBlogTraffic = async(blogUrl: String): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getLatestBlogTraffic()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getLatestBlogTraffic(blogUrl);
+    }
+
     public deleteBlog = async(blogDetails: Object): Promise<DBResponse> => {
         const self = this;
         LOG_CTX = chalk.cyan(`${ns} - deleteBlog()`);

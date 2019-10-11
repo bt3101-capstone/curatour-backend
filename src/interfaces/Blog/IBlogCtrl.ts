@@ -4,6 +4,7 @@ export interface IBlogCtrl {
     addBlog(req: any, res: any, nextFunction: any): Promise<void>;
     getBlog(req: any, res: any, nextFunction: any): any;
     getBlogTraffic(req: any, res: any, nextFunction: any): any;
+    getLatestBlogTraffic(req: any, res: any, nextFunction: any): any;
     getBlogCountryMetric(req: any, res: any, nextFunction: any): any;
     deleteBlog(req: any, res: any, nextFunction: any): any;
 }
