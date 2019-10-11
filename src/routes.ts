@@ -27,6 +27,7 @@ export const register = (app: Express) => {
 
     // API Endpoints
     app.get('/autocomplete', blogCtrl.getAutocompleteUrls);
+    app.get('/blog/historical/:url', blogCtrl.getLatestBlogTraffic);
     app.post('/blog/traffic', blogCtrl.getBlogTraffic);
     app.get('/blog/:id', blogCtrl.getBlog);
     app.post('/blog/country', blogCtrl.getBlogCountryMetric);
