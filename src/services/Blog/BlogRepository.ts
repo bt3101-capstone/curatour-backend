@@ -289,4 +289,48 @@ export class BlogRepository implements IBlogRepository {
             return resp;
         }
     }
+
+    /**
+     * Get Entities Data (Single Country)
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getCountryEntities = async(country: String): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        console.log(LOG_CTX);
+
+        let result, resp;
+        try {
+            result = await self._countryMetric.find({'country': country}, 'entities').lean();
+
+            LOG_CTX = chalk.green(`Success ${ns}.getCountryEntities`);
+            console.log(LOG_CTX);
+            console.log(result);
+
+            let countryEntities =[];
+
+            for (let post in result) {
+                let entities = result[post]['entities'];
+                for (let entity in entities) {
+                    countryEntities.push(entity);
+                }
+            }
+            countryEntities = Array.from(new Set(countryEntities));
+            result = countryEntities;
+
+            resp = {
+                error: false,
+                data: result,
+            };
+        } catch(e) {
+            console.log(e);
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp;
+        }
+    }
 }

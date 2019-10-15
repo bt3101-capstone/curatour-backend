@@ -88,4 +88,12 @@ export class BlogService implements IBlogService {
 
         return self._blogRepository.getBlogCountryMetric(blogCountryFilters);
     }
+
+    public getCountryEntities = async(country: String): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getCountryEntities(country);
+    }
 }

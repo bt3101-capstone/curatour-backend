@@ -164,4 +164,24 @@ export class BlogCtrl implements IBlogCtrl {
             }
         }()
     }
+
+    public getCountryEntities = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!req.params.country) {
+                throw boom.badRequest('country for getting country entities data is required!')
+            }
+
+            const getCountryEntitiesDataResp = await self._blogService.getCountryEntities(req.params.country);
+            if (!getCountryEntitiesDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getCountryEntitiesDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getCountryEntitiesDataResp);
+            }
+        }()
+    }
 }
