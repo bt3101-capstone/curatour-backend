@@ -6,7 +6,13 @@ const BlogCountryMetric = new mongoose.Schema(
     {
         country: String,
         year: String,
-        entities: {},
+        entities: [{
+            name: String,
+            data: [{
+                x: String,
+                y: Number
+            }]
+        }],
         createdAt: String,
         updatedAt: String
     }, {

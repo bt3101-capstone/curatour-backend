@@ -100,5 +100,28 @@ export interface ITopBlogSites extends Document {
 export interface IBlogCountryMetric extends Document {
     country: string;
     year: string;
-    entities: { [key: string]: Array<any> };
+    entities: [{
+        name: string,
+        data: [
+            {
+                x: string,
+                y: number
+            }
+        ]
+    }];
+}
+
+export interface IBlogTimePeriodEntitiesMetric extends Document {
+    timePeriod: string;
+    entities: { [key: string]: number }
+}
+
+export interface IBlogMonetizeEntities extends Document {
+    country: string;
+    entities: [
+        {
+            entity: string,
+            city: string
+        }
+    ]
 }

@@ -105,6 +105,26 @@ export class BlogCtrl implements IBlogCtrl {
         }()
     }
 
+    public getLatestBlogTraffic = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getLatestBlogTraffic(); historicalData`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!req.params.url) {
+                throw boom.badRequest('url for getting latest blog historical data is required!')
+            }
+
+            const getLatestBlogTrafficDataResp = await self._blogService.getLatestBlogTraffic(req.params.url);
+            if (!getLatestBlogTrafficDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getLatestBlogTrafficDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getLatestBlogTrafficDataResp);
+            }
+        }()
+    }
+
     public deleteBlog = (req: Request, res: Response, nextFunction: NextFunction) => {
         const self = this;
         LOG_CTX = chalk.cyan(`${ns} - deleteBlog()`);
@@ -141,6 +161,41 @@ export class BlogCtrl implements IBlogCtrl {
                 sendJsonResponse(res, 200, 'Ok', getBlogCountryMetricDataResp);
             } else {
                 sendJsonResponse(res, 500, 'error', getBlogCountryMetricDataResp);
+            }
+        }()
+    }
+
+    public getBlogMonetizeEntities = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getBlogMonetizeEntities()`);
+        console.log(LOG_CTX);
+        const { body } = req;
+
+        return async function() {
+            if (!req.params.country) {
+                throw boom.badRequest('country for getting country monetize entities data is required!')
+            }
+
+            const getBlogMonetizeEntitiesDataResp = await self._blogService.getBlogMonetizeEntities(req.params.country);
+            if (!getBlogMonetizeEntitiesDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getBlogMonetizeEntitiesDataResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getBlogMonetizeEntitiesDataResp);
+            }
+        }()
+    }
+
+    public getTimePeriodEntitiesMetric = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getTimePeriodEntitiesMetric()`);
+        console.log(LOG_CTX);
+
+        return async function() {
+        const getTimePeriodEntitiesResp = await self._blogService.getTimePeriodEntitiesMetric();
+            if (!getTimePeriodEntitiesResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getTimePeriodEntitiesResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getTimePeriodEntitiesResp);
             }
         }()
     }
