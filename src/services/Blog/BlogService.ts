@@ -89,11 +89,19 @@ export class BlogService implements IBlogService {
         return self._blogRepository.getBlogCountryMetric(blogCountryFilters);
     }
 
-    public getCountryEntities = async(country: String): Promise<DBResponse> => {
+    public getBlogMonetizeEntities = async(country: String): Promise<DBResponse> => {
         const self = this;
-        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        LOG_CTX = chalk.cyan(`${ns} - getBlogMonetizeEntities()`);
         console.log(LOG_CTX);
 
-        return self._blogRepository.getCountryEntities(country);
+        return self._blogRepository.getBlogMonetizeEntities(country);
+    }
+
+    public getTimePeriodEntitiesMetric = async() => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getTimePeriodEntitiesMetric()`);
+        console.log(LOG_CTX);
+
+        return self._blogRepository.getTimePeriodEntitiesMetric();
     }
 }

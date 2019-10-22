@@ -2,10 +2,12 @@ import _ from 'lodash';
 import chalk from 'chalk';
 import { injectable } from 'inversify';
 import { Model } from 'mongoose';
-import { IBlog, IBlogCountryMetric, IBlogRepository } from '../../interfaces/Blog';
+import { IBlog, IBlogCountryMetric, IBlogTimePeriodEntitiesMetric, IBlogMonetizeEntities, IBlogRepository } from '../../interfaces/Blog';
 import { DBResponse } from '../utils';
 import Blog from './BlogPostSchema';
 import BlogCountryMetric from './BlogCountrySchema';
+import BlogMonetizeEntities from './BlogMonetizeEntitiesSchema';
+import BlogTimePeriodEntitiesMetric from './BlogTimeEntitiesSchema';
 
 const ns = '@BlogRepository';
 let LOG_CTX = chalk.cyan(`${ns} - Starting BlogRepository`);
@@ -16,10 +18,14 @@ export class BlogRepository implements IBlogRepository {
 
     private _model: Model<IBlog>;
     private _countryMetric: Model<IBlogCountryMetric>;
+    private _countryMonetizeEntities: Model<IBlogMonetizeEntities>;
+    private _timePeriodEntitiesMetric: Model<IBlogTimePeriodEntitiesMetric>;
 
     constructor() {
         this._model = Blog;
         this._countryMetric = BlogCountryMetric;
+        this._countryMonetizeEntities = BlogMonetizeEntities;
+        this._timePeriodEntitiesMetric = BlogTimePeriodEntitiesMetric;
     }
 
     public async helloRepository() {
@@ -274,7 +280,6 @@ export class BlogRepository implements IBlogRepository {
             }
             LOG_CTX = chalk.green(`Success ${ns}.getBlogCountryMetric`);
             console.log(LOG_CTX);
-            console.log(result);
 
             resp = {
                 error: false,
@@ -291,33 +296,23 @@ export class BlogRepository implements IBlogRepository {
     }
 
     /**
-     * Get Entities Data (Single Country)
+     * Get Monetizable Entities Data (Single Country)
      * @returns {DBResponse} - Response after interacting with Mongoose
      * @memberOf: BlogRepository
      */
-    public getCountryEntities = async(country: String): Promise<DBResponse> => {
+    public getBlogMonetizeEntities = async(country: String): Promise<DBResponse> => {
         const self = this;
-        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        LOG_CTX = chalk.cyan(`${ns} - getBlogMonetizeEntities()`);
         console.log(LOG_CTX);
 
         let result, resp;
         try {
-            result = await self._countryMetric.find({'country': country}, 'entities').lean();
+            result = await self._countryMonetizeEntities.find({'country': country}, 'entities');
+            result = result[0]['entities'];
 
-            LOG_CTX = chalk.green(`Success ${ns}.getCountryEntities`);
+            LOG_CTX = chalk.green(`Success ${ns}.getBlogMonetizeEntities`);
             console.log(LOG_CTX);
             console.log(result);
-
-            let countryEntities =[];
-
-            for (let post in result) {
-                let entities = result[post]['entities'];
-                for (let entity in entities) {
-                    countryEntities.push(entity);
-                }
-            }
-            countryEntities = Array.from(new Set(countryEntities));
-            result = countryEntities;
 
             resp = {
                 error: false,
@@ -331,6 +326,34 @@ export class BlogRepository implements IBlogRepository {
             };
         } finally {
             return resp;
+        }
+    }
+
+    /**
+     * Get all BlogUrls for Autocomplete
+     * @returns {DBResponse} - Response after interacting with Mongoose
+     * @memberOf: BlogRepository
+     */
+    public getTimePeriodEntitiesMetric = async(): Promise<DBResponse> => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getTimePeriodEntitiesMetric()`);
+        console.log(LOG_CTX);
+
+        let resp, result;
+        try {
+            result = await self._timePeriodEntitiesMetric.find();
+
+            resp = {
+                error: false,
+                data: result,
+            }
+        } catch(e) {
+            resp = {
+                error: true,
+                data: e,
+            };
+        } finally {
+            return resp
         }
     }
 }

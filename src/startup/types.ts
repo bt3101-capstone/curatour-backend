@@ -6,6 +6,8 @@ export const mongoose = 'mongoose';
 export const Blog = 'Blog';
 export const BlogPost = 'BlogPost';
 export const BlogCountryMetric = 'BlogCountryMetric';
+export const BlogTimePeriodEntitiesMetric = 'BlogTimePeriodEntitiesMetric';
+export const BlogMonetizeEntities = 'BlogMonetizeEntities';
 export const UserCredential = 'UserCredential';
 
 export const SERVICE_IDENTIFIER = {

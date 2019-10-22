@@ -7,7 +7,8 @@ export interface IBlogService {
     getBlog(id: String): Promise<DBResponse>;
     getBlogTraffic(blogDetails: Object): Promise<DBResponse>;
     getLatestBlogTraffic(blogUrl: String): Promise<DBResponse>;
-    getCountryEntities(country: String): Promise<DBResponse>;
+    getBlogMonetizeEntities(country: String): Promise<DBResponse>;
     getBlogCountryMetric(blogCountryFilters: Object): Promise<DBResponse>;
+    getTimePeriodEntitiesMetric(): Promise<DBResponse>;
     deleteBlog(blogDetails: Object): Promise<DBResponse>;
 }

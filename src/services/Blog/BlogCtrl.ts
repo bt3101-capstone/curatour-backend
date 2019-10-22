@@ -165,22 +165,37 @@ export class BlogCtrl implements IBlogCtrl {
         }()
     }
 
-    public getCountryEntities = (req: Request, res: Response, nextFunction: NextFunction) => {
+    public getBlogMonetizeEntities = (req: Request, res: Response, nextFunction: NextFunction) => {
         const self = this;
-        LOG_CTX = chalk.cyan(`${ns} - getCountryEntities()`);
+        LOG_CTX = chalk.cyan(`${ns} - getBlogMonetizeEntities()`);
         console.log(LOG_CTX);
         const { body } = req;
 
         return async function() {
             if (!req.params.country) {
-                throw boom.badRequest('country for getting country entities data is required!')
+                throw boom.badRequest('country for getting country monetize entities data is required!')
             }
 
-            const getCountryEntitiesDataResp = await self._blogService.getCountryEntities(req.params.country);
-            if (!getCountryEntitiesDataResp.error) {
-                sendJsonResponse(res, 200, 'Ok', getCountryEntitiesDataResp);
+            const getBlogMonetizeEntitiesDataResp = await self._blogService.getBlogMonetizeEntities(req.params.country);
+            if (!getBlogMonetizeEntitiesDataResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getBlogMonetizeEntitiesDataResp);
             } else {
-                sendJsonResponse(res, 500, 'error', getCountryEntitiesDataResp);
+                sendJsonResponse(res, 500, 'error', getBlogMonetizeEntitiesDataResp);
+            }
+        }()
+    }
+
+    public getTimePeriodEntitiesMetric = (req: Request, res: Response, nextFunction: NextFunction) => {
+        const self = this;
+        LOG_CTX = chalk.cyan(`${ns} - getTimePeriodEntitiesMetric()`);
+        console.log(LOG_CTX);
+
+        return async function() {
+        const getTimePeriodEntitiesResp = await self._blogService.getTimePeriodEntitiesMetric();
+            if (!getTimePeriodEntitiesResp.error) {
+                sendJsonResponse(res, 200, 'Ok', getTimePeriodEntitiesResp);
+            } else {
+                sendJsonResponse(res, 500, 'error', getTimePeriodEntitiesResp);
             }
         }()
     }
