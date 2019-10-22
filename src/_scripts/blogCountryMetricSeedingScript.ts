@@ -37,7 +37,13 @@ const SPARES = nconf.get('mongo:spares');
         {
             country: String,
             year: String,
-            entities: {},
+            entities: [{
+                name: String,
+                data: [{
+                    x: String,
+                    y: Number
+                }]
+            }],
             createdAt: String,
             updatedAt: String
         }, {
@@ -66,7 +72,7 @@ const SPARES = nconf.get('mongo:spares');
                 if (e) {
                     console.log('Error when adding new blogCountryMetric data!');
                 }
-                console.log(countryData.country + " saved to blogCountryMetric collection.")
+                console.log(countryData + " saved to blogCountryMetric collection.")
             });
         }
     }
