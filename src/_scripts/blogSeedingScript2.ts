@@ -110,59 +110,60 @@ const SPARES = nconf.get('mongo:spares');
 
     mongoose.model<IBlog>(types.Blog, blogSchema);
 
-    // const blogEntry = mongoose.model<IBlog>(types.Blog, blogSchema);
-    // const db = mongoose.connection;
-
-    // const trafficData = seedingData['blogs'];
-    // trafficData.forEach(async(blog) => {
-    //     db.once('open', () => {
-    //         console.log('Connection successful!');
-    //     });
-
-    //     const blogUrl = blog['blogUrl'];
-    //     const blogTraffic = blog['blogTraffic'];
-    //     const blogs = blog['blogs'];
-
-    //     const newBlog = new blogEntry({
-    //         blogUrl,
-    //         blogTraffic,
-    //         blogs
-    //     });
-
-    //     newBlog.save((e, blogData) => {
-    //         if (e) {
-    //             console.log('Error when adding new Blog data!');
-    //         }
-    //         console.log(blogUrl + " saved to Blog collection.")
-    //     });
-    // });
+    const blogEntry = mongoose.model<IBlog>(types.Blog, blogSchema);
+    const db = mongoose.connection;
 
     const trafficData = seedingData['blogs'];
     trafficData.forEach(async(blog) => {
+        db.once('open', () => {
+            console.log('Connection successful!');
+        });
+
         const blogUrl = blog['blogUrl'];
         const blogTraffic = blog['blogTraffic'];
         const blogs = blog['blogs'];
-        const seedDataFormat = {
-            "blogUrl": blogUrl,
-            "blogTraffic": blogTraffic,
-            "blogs": blogs
-        }
+
+        const newBlog = new blogEntry({
+            blogUrl,
+            blogTraffic,
+            blogs
+        });
+
+        newBlog.save((e, blogData) => {
+            if (e) {
+                console.log('Error when adding new Blog data!');
+                console.log(e);
+            }
+            console.log(blogUrl + " saved to Blog collection.")
+        });
+    });
+
+    // const trafficData = seedingData['blogs'];
+    // trafficData.forEach(async(blog) => {
+    //     const blogUrl = blog['blogUrl'];
+    //     const blogTraffic = blog['blogTraffic'];
+    //     const blogs = blog['blogs'];
+    //     const seedDataFormat = {
+    //         "blogUrl": blogUrl,
+    //         "blogTraffic": blogTraffic,
+    //         "blogs": blogs
+    //     }
         
 
-        let res;
-        try {
-            // res = await blogService.addBlog({
-            //     blogUrl,
-            //     blogTraffic,
-            //     blogs
-            // });
-            res = await superagent.post('localhost:3000/blog/add').send({ data: seedDataFormat });
-        } catch(e) {
-            LOG_CTX = chalk.red(`Error ${ns} - when adding documents`);
-            console.log(LOG_CTX);
-            console.log(e);
-        }
-    });
+    //     let res;
+    //     try {
+    //         // res = await blogService.addBlog({
+    //         //     blogUrl,
+    //         //     blogTraffic,
+    //         //     blogs
+    //         // });
+    //         res = await superagent.post('localhost:3000/blog/add').send({ data: seedDataFormat });
+    //     } catch(e) {
+    //         LOG_CTX = chalk.red(`Error ${ns} - when adding documents`);
+    //         console.log(LOG_CTX);
+    //         console.log(e);
+    //     }
+    // });
 
 })()
 .catch((err) => {
