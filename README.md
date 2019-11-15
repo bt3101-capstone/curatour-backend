@@ -25,7 +25,7 @@ sudo apt-get install -y build-essential python
 ```
 
 2. Deploy NodeJS application through Docker and ECR.
-- Follow instructions from this amazing [blog](https://www.freecodecamp.org/news/how-to-deploy-a-node-js-application-to-amazon-web-services-using-docker-81c2a2d7225b/)
+- Follow instructions from this [blog](https://medium.com/@terencelimxp/step-by-step-how-to-dockerize-and-deploy-a-node-js-mongo-app-to-amazon-ecs-using-aws-ec2-19489632e2d5)
 - Include [Sensitive Secret Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-tutorial.html)
 
 ### Local Installation
