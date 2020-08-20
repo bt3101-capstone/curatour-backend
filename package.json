@@ -19,7 +19,7 @@
   "homepage": "https://github.com/bt3101-capstone/curatour-backend#readme",
   "dependencies": {
     "awilix": "^4.2.2",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "boom": "^7.3.0",
     "chalk": "^2.4.2",
     "dotenv": "^8.1.0",
